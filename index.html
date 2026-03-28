@@ -3,96 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bond Hawaii 2026 | Digital Dashboard</title>
+    <title>Bond Hawaii 2026 | Master Itinerary</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #0077be; --orange: #ff8c00; --bg: #f8f9fa; --white: #ffffff; }
+        :root { --blue: #0077be; --orange: #ff8c00; --bg: #f0f4f7; --white: #ffffff; }
         body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        
+        /* Header & Dashboard */
         .hero { 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200'); 
-            height: 200px; background-size: cover; background-position: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200'); 
+            height: 180px; background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
         }
         .dashboard {
-            background: var(--white); margin: -30px auto 20px; max-width: 600px;
-            border-radius: 15px; padding: 15px; display: grid; grid-template-columns: 1fr 1fr;
+            background: var(--white); margin: -30px auto 20px; max-width: 900px; width: 95%;
+            border-radius: 15px; padding: 15px; display: grid; grid-template-columns: 1fr 1fr 1fr;
             gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
         }
-        .dash-item { padding: 5px; }
+        .dash-item { padding: 5px; border-right: 1px solid #eee; }
+        .dash-item:last-child { border-right: none; }
         .dash-label { font-size: 0.6rem; text-transform: uppercase; font-weight: 700; color: #888; }
-        .dash-value { font-weight: 700; font-size: 1rem; color: var(--blue); }
-        .countdown-box { grid-column: span 2; border-top: 1px solid #eee; padding-top: 10px; }
-        .container { max-width: 600px; margin: 0 auto 50px; padding: 0 15px; }
-        .day-card { background: var(--white); border-radius: 15px; padding: 20px; margin-bottom: 25px; border-left: 6px solid var(--blue); }
-        h2 { color: var(--blue); margin: 0; font-family: 'Montserrat'; font-size: 1.1rem; }
-        .event { display: flex; padding: 12px 0; border-bottom: 1px solid #eee; }
-        .time { min-width: 70px; font-weight: 600; color: var(--orange); font-size: 0.85rem; }
-        .michael-tip { background: #fff9db; padding: 10px; border-radius: 8px; font-size: 0.8rem; border-left: 3px solid #f1c40f; margin-top: 5px; }
+        .dash-value { font-weight: 700; font-size: 0.9rem; color: var(--blue); }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 15px; }
+
+        /* Calendar Grid */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .cal-day {
+            background: var(--white); border-radius: 10px; padding: 10px; text-align: center;
+            cursor: pointer; transition: 0.3s; border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .cal-day:hover { border-color: var(--blue); transform: translateY(-3px); }
+        .cal-day.active { background: var(--blue); color: white; }
+        .cal-day span { display: block; font-size: 0.7rem; font-weight: bold; }
+        .cal-day strong { font-size: 1.1rem; }
+
+        /* Detail Sections */
+        .day-content { display: none; background: var(--white); border-radius: 15px; padding: 25px; margin-bottom: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); animation: fadeIn 0.5s; }
+        .day-content.active { display: block; }
+
+        .activity { display: flex; gap: 20px; padding: 15px 0; border-bottom: 1px solid #eee; align-items: flex-start; }
+        .activity:last-child { border-bottom: none; }
+        .time { min-width: 80px; font-weight: 700; color: var(--orange); }
+        
+        .btn-map { 
+            display: inline-block; background: var(--blue); color: white; 
+            padding: 8px 15px; border-radius: 5px; text-decoration: none; 
+            font-size: 0.8rem; font-weight: 600; margin-top: 10px;
+        }
+
+        .michael-tip { background: #fff9db; padding: 12px; border-radius: 8px; font-size: 0.85rem; border-left: 4px solid #f1c40f; margin-top: 10px; font-style: italic; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 600px) {
+            .calendar-grid { grid-template-columns: repeat(4, 1fr); }
+            .dashboard { grid-template-columns: 1fr 1fr; }
+            .dash-item:nth-child(3) { grid-column: span 2; border: none; border-top: 1px solid #eee; }
+            .activity { flex-direction: column; gap: 5px; }
+        }
     </style>
 </head>
 <body>
+
     <div class="hero">
-        <h1 style="margin:0; font-family:'Montserrat';">BOND ALOHA 2026</h1>
-        <p style="font-size:0.8rem;">Hawaii Digital Itinerary</p>
+        <h1 style="margin:0;">BOND ALOHA 2026</h1>
+        <p>Your Digital Travel Command Center</p>
     </div>
+
     <div class="container">
         <div class="dashboard">
-            <div class="dash-item" style="border-right: 1px solid #eee;">
-                <div class="dash-label">Honolulu (HST)</div>
+            <div class="dash-item">
+                <div class="dash-label">Honolulu</div>
                 <div class="dash-value" id="h-time">--:--</div>
             </div>
             <div class="dash-item">
-                <div class="dash-label">Philadelphia (EST)</div>
+                <div class="dash-label">Philly (EST)</div>
                 <div class="dash-value" id="e-time">--:--</div>
             </div>
-            <div class="dash-item countdown-box">
-                <div class="dash-label" id="cd-label">Countdown to Land (8:21 PM)</div>
-                <div id="countdown" style="font-weight:700; color:var(--orange); font-size:1.2rem;">--:--:--</div>
+            <div class="dash-item">
+                <div class="dash-label">Landing Countdown</div>
+                <div class="dash-value" id="countdown" style="color:var(--orange)">--:--:--</div>
             </div>
         </div>
-        <div class="day-card">
-            <span style="font-size:0.7rem; color:#888;">SATURDAY, MAR 28</span>
-            <h2>Day 1: Arrival</h2>
-            <div class="event">
+
+        <h3 style="text-align:center; color: var(--blue);">Tap a Day to View Details</h3>
+        
+        <div class="calendar-grid">
+            <div class="cal-day active" onclick="showDay('day1', this)"><span>MAR</span><strong>28</strong></div>
+            <div class="cal-day" onclick="showDay('day2', this)"><span>MAR</span><strong>29</strong></div>
+            <div class="cal-day" onclick="showDay('day3', this)"><span>MAR</span><strong>30</strong></div>
+            <div class="cal-day" onclick="showDay('day4', this)"><span>MAR</span><strong>31</strong></div>
+            <div class="cal-day" onclick="showDay('day5', this)"><span>APR</span><strong>01</strong></div>
+            <div class="cal-day" onclick="showDay('day6', this)"><span>APR</span><strong>02</strong></div>
+            <div class="cal-day" onclick="showDay('day7', this)"><span>APR</span><strong>03</strong></div>
+            <div class="cal-day" onclick="showDay('day8', this)"><span>APR</span><strong>04</strong></div>
+        </div>
+
+        <div id="day1" class="day-content active">
+            <h2 style="color:var(--blue)">Saturday, March 28: Arrival</h2>
+            <div class="activity">
                 <div class="time">8:30 PM</div>
-                <div><strong>Check-in Hyatt Regency</strong><p style="margin:0; font-size:0.8rem;">2424 Kalakaua Ave. Directly across from Waikiki Beach.</p></div>
+                <div>
+                    <strong>Check-in: Hyatt Regency Waikiki</strong><br>
+                    2424 Kalakaua Ave<br>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Hyatt+Regency+Waikiki+Beach+Resort+And+Spa" target="_blank" class="btn-map">📍 Open in Maps</a>
+                </div>
             </div>
-            <div class="event">
-                <div class="time">Late</div>
-                <div><strong>Dinner: Duke's Waikiki</strong>
-                    <div class="michael-tip">Michael: "Hula Pie is a mountain of ice cream!"</div>
+            <div class="activity">
+                <div class="time">LATE</div>
+                <div>
+                    <strong>Dinner: Duke's Waikiki</strong><br>
+                    Oceanfront dining & Hula Pie. 5 min walk from hotel.<br>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Duke's+Waikiki" target="_blank" class="btn-map">📍 Open in Maps</a>
+                    <div class="michael-tip">Michael: "The Hula Pie is a mountain of ice cream."</div>
                 </div>
             </div>
         </div>
-        <div class="day-card">
-            <span style="font-size:0.7rem; color:#888;">SUNDAY, MAR 29</span>
-            <h2>Day 2: Diamond Head Hike</h2>
-            <div class="event">
+
+        <div id="day2" class="day-content">
+            <h2 style="color:var(--blue)">Sunday, March 29: Diamond Head</h2>
+            <div class="activity">
                 <div class="time">5:00 AM</div>
-                <div><strong>Diamond Head Summit</strong><p style="margin:0; font-size:0.8rem;">Sunrise hike. Ensure reservations are ready.</p></div>
+                <div>
+                    <strong>Diamond Head Summit Hike</strong><br>
+                    Reservations Required. Spectacular 360° views.<br>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Diamond+Head+State+Monument" target="_blank" class="btn-map">📍 Open in Maps</a>
+                </div>
             </div>
         </div>
+
+        <div id="day3" class="day-content">
+            <h2 style="color:var(--blue)">Monday, March 30: Pearl Harbor</h2>
+            <div class="activity">
+                <div class="time">7:30 AM</div>
+                <div><strong>Pearl Harbor National Memorial</strong><br><a href="https://www.google.com/maps/search/?api=1&query=Pearl+Harbor+National+Memorial" target="_blank" class="btn-map">📍 Open in Maps</a></div>
+            </div>
+            <div class="activity">
+                <div class="time">7:00 PM</div>
+                <div><strong>Hy's Steak House</strong><br>Old-school cool with tableside flambé.<br><a href="https://www.google.com/maps/search/?api=1&query=Hy's+Steak+House+Honolulu" target="_blank" class="btn-map">📍 Open in Maps</a></div>
+            </div>
+        </div>
+
+        <div id="day4" class="day-content">
+            <h2 style="color:var(--blue)">Tuesday, March 31: Helicopter</h2>
+            <div class="activity">
+                <div class="time">8:00 AM</div>
+                <div><strong>Blue Hawaiian Helicopters</strong><br>Sacred Falls & North Shore tour.<br><a href="https://www.google.com/maps/search/?api=1&query=Blue+Hawaiian+Helicopters+Honolulu" target="_blank" class="btn-map">📍 Open in Maps</a></div>
+            </div>
+        </div>
+
+        <div id="day8" class="day-content">
+            <h2 style="color:var(--blue)">Saturday, April 4: Aloha</h2>
+            <div class="activity">
+                <div class="time">9:00 AM</div>
+                <div><strong>Breakfast: Lulu's Waikiki</strong><br>One last Loco Moco.<br><a href="https://www.google.com/maps/search/?api=1&query=Lulu's+Waikiki" target="_blank" class="btn-map">📍 Open in Maps</a></div>
+            </div>
+            <div class="activity">
+                <div class="time">7:55 PM</div>
+                <div><strong>Flight Home</strong><br>Depart HNL.</div>
+            </div>
+        </div>
+
     </div>
+
     <script>
-        function update() {
+        function showDay(dayId, element) {
+            document.querySelectorAll('.day-content').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('active'));
+            document.getElementById(dayId).classList.add('active');
+            element.classList.add('active');
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function updateTime() {
             const now = new Date();
             document.getElementById('h-time').innerText = now.toLocaleTimeString("en-US", {timeZone: "Pacific/Honolulu", hour:'2-digit', minute:'2-digit'});
             document.getElementById('e-time').innerText = now.toLocaleTimeString("en-US", {timeZone: "America/New_York", hour:'2-digit', minute:'2-digit'});
             
             const land = new Date("March 28, 2026 20:21:00").getTime();
             const diff = land - now.getTime();
-            if (diff <= 0) { 
-                document.getElementById("countdown").innerText = "ALOHA! WELCOME HOME!"; 
-                document.getElementById("cd-label").innerText = "Status";
-            }
+            if(diff <= 0) document.getElementById('countdown').innerText = "ALOHA!";
             else {
-                const h = Math.floor(diff / 3600000);
-                const m = Math.floor((diff % 3600000) / 60000);
-                const s = Math.floor((diff % 60000) / 1000);
-                document.getElementById("countdown").innerText = h + "h " + m + "m " + s + "s";
+                const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+                document.getElementById('countdown').innerText = h + "h " + m + "m " + s + "s";
             }
         }
-        setInterval(update, 1000); update();
+        setInterval(updateTime, 1000); updateTime();
     </script>
 </body>
 </html>
