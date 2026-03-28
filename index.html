@@ -1,395 +1,450 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bond Hawaii 2026 | Command Center</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #0F172A; --ocean: #0284C7; --sunset: #F59E0B; --ev: #10B981;
-            --bg: #F8FAFC; --card: #FFFFFF; --text: #334155; --light: #CBD5E1;
+            --navy: #0C1222;
+            --ocean: #0EA5E9;
+            --sunset: #F59E0B;
+            --lava: #EF4444;
+            --palm: #10B981;
+            --orchid: #A855F7;
+            --coral: #F97316;
+            --sand: #FEF3C7;
+            --bg: #F0F4F8;
+            --card: #FFFFFF;
+            --text: #1E293B;
+            --text-sec: #64748B;
+            --text-muted: #94A3B8;
+            --border: #E2E8F0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
+            --shadow-xl: 0 25px 60px rgba(0,0,0,0.12);
+            --r: 20px;
+            --r-sm: 12px;
+            --r-xs: 8px;
+        }
+        [data-theme="dark"] {
+            --bg: #0F172A; --card: #1E293B; --text: #F1F5F9;
+            --text-sec: #94A3B8; --text-muted: #64748B; --border: #334155;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+            --shadow-xl: 0 25px 60px rgba(0,0,0,0.5);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); padding-bottom: 60px; overflow-x: hidden; }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80');
-            background-size: cover; background-position: center;
-            height: 260px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 40px; color: white; text-align: center;
+        body {
+            font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text);
+            overflow-x: hidden; -webkit-font-smoothing: antialiased; transition: background 0.4s, color 0.4s;
         }
-        .hero h1 { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; letter-spacing: 1px; margin-bottom: 5px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        .hero p { font-size: 0.9rem; font-weight: 500; color: #E0F2FE; }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
+```
+    /* ===== HERO ===== */
+    .hero {
+        position: relative; height: 380px; display: flex; flex-direction: column;
+        justify-content: flex-end; align-items: center; padding: 0 20px 55px;
+        color: white; text-align: center; overflow: hidden;
+    }
+    .hero::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(12,18,34,0) 0%, rgba(12,18,34,0.35) 35%, rgba(12,18,34,0.92) 100%),
+            url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80');
+        background-size: cover; background-position: center 35%;
+        animation: heroZoom 25s ease-in-out infinite alternate;
+    }
+    @keyframes heroZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+    .hero > * { position: relative; z-index: 2; }
 
-        /* Dashboard Clocks */
-        .live-dash {
-            background: var(--card); border-radius: 16px; padding: 15px;
-            margin: -30px auto 25px; display: flex; justify-content: space-between;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.1); position: relative; z-index: 10;
-        }
-        .time-block { text-align: center; flex: 1; border-right: 1px solid #E2E8F0; }
-        .time-block:last-child { border-right: none; }
-        .time-label { font-size: 0.6rem; font-weight: 800; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; }
-        .time-value { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-top: 5px; font-variant-numeric: tabular-nums; }
-        .highlight { color: var(--sunset); }
+    .hero-eyebrow {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.15); padding: 6px 16px; border-radius: 50px;
+        font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+        margin-bottom: 14px; animation: fadeUp 0.8s ease-out 0.2s both;
+    }
+    .hero h1 {
+        font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900;
+        line-height: 1; letter-spacing: -1px; margin-bottom: 10px;
+        text-shadow: 0 4px 30px rgba(0,0,0,0.5); animation: fadeUp 0.8s ease-out 0.4s both;
+    }
+    .hero-sub {
+        font-size: 0.9rem; font-weight: 400; color: rgba(255,255,255,0.65);
+        animation: fadeUp 0.8s ease-out 0.6s both;
+    }
+    .hero-sub strong { color: white; font-weight: 600; }
+    .hero-avatars {
+        display: flex; margin-bottom: 12px;
+        animation: fadeUp 0.8s ease-out 0.3s both;
+    }
+    .hero-avatar {
+        width: 38px; height: 38px; border-radius: 50%; border: 2px solid white;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.85rem; font-weight: 800; color: white; margin-left: -6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .hero-avatar:first-child { margin-left: 0; background: var(--sunset); }
+    .hero-avatar:nth-child(2) { background: var(--ocean); }
+    .hero-avatar:last-child { background: var(--palm); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Calendar Ribbon (Horizontal Scroll) */
-        .cal-nav-container { margin-bottom: 25px; overflow: visible; }
-        .cal-nav {
-            display: flex; gap: 10px; overflow-x: auto; padding: 5px 0 15px 0;
-            -webkit-overflow-scrolling: touch; scrollbar-width: none;
-        }
-        .cal-nav::-webkit-scrollbar { display: none; }
-        
-        .cal-tab {
-            flex: 0 0 auto; width: 75px; background: var(--card); border: 2px solid #E2E8F0; 
-            border-radius: 14px; padding: 12px 5px; text-align: center; cursor: pointer; 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            appearance: none; outline: none; font-family: 'Inter', sans-serif;
-        }
-        .cal-tab span { display: block; font-size: 0.65rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-bottom: 2px; }
-        .cal-tab strong { display: block; font-size: 1.3rem; font-weight: 800; color: var(--navy); }
-        
-        .cal-tab:active { transform: scale(0.95); }
-        .cal-tab.active { background: var(--ocean); border-color: var(--ocean); box-shadow: 0 10px 20px rgba(2, 132, 199, 0.3); transform: translateY(-3px); }
-        .cal-tab.active span, .cal-tab.active strong { color: white; }
+    .top-btn {
+        position: absolute; top: 16px; z-index: 100;
+        background: rgba(255,255,255,0.12); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.18); color: white;
+        width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center;
+        justify-content: center; font-size: 1.1rem; cursor: pointer; transition: transform 0.3s;
+    }
+    .top-btn:active { transform: scale(0.9); }
+    .top-btn.left { left: 16px; }
+    .top-btn.right { right: 16px; }
 
-        /* Itinerary Views */
-        .day-view { display: none; opacity: 0; transform: translateY(20px); transition: all 0.4s ease-out; }
-        .day-view.active { display: block; opacity: 1; transform: translateY(0); }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
-        .day-header { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #E2E8F0; }
-        .day-header h2 { font-size: 1.6rem; color: var(--navy); font-weight: 800; letter-spacing: -0.5px; }
-        .day-header p { font-size: 0.9rem; color: #64748B; font-weight: 500; margin-top: 4px; }
+    /* ===== LIVE DASHBOARD ===== */
+    .live-dash {
+        background: var(--card); border-radius: var(--r); padding: 16px 10px;
+        margin: -38px 16px 22px; display: grid; grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px; box-shadow: var(--shadow-xl); position: relative; z-index: 10;
+        border: 1px solid var(--border); max-width: 800px;
+        margin-left: auto; margin-right: auto;
+        animation: fadeUp 0.8s ease-out 0.8s both;
+    }
+    .time-block { text-align: center; padding: 10px 4px; border-radius: var(--r-sm); background: var(--bg); }
+    .time-label { font-size: 0.5rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 5px; }
+    .time-value { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .time-value.countdown { color: var(--sunset); }
+    .time-value.landed { color: var(--palm); font-size: 0.85rem; }
 
-        /* Event Cards */
-        .event-card {
-            background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 15px; position: relative;
-            border-left: 6px solid var(--light);
-        }
-        .event-card.flight { border-left-color: var(--ocean); }
-        .event-card.activity { border-left-color: var(--sunset); }
-        .event-card.hotel { border-left-color: #3B82F6; }
-        .event-card.ev-car { border-left-color: var(--ev); }
+    /* ===== TRIP PROGRESS ===== */
+    .trip-progress { margin-bottom: 22px; }
+    .progress-header { display: flex; justify-content: space-between; margin-bottom: 7px; }
+    .progress-label { font-size: 0.6rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
+    .progress-bar { height: 5px; background: var(--border); border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ocean), var(--palm)); border-radius: 10px; transition: width 1s ease-out; }
 
-        .event-time { min-width: 75px; border-right: 1px solid #F1F5F9; padding-right: 15px; display: flex; flex-direction: column; justify-content: center; }
-        .event-time h3 { font-size: 1.2rem; font-weight: 800; color: var(--navy); line-height: 1; }
-        .event-time span { font-size: 0.7rem; font-weight: 700; color: #94A3B8; margin-top: 4px; }
+    /* ===== QUICK ACTIONS ===== */
+    .quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 26px; }
+    .qa-btn {
+        background: var(--card); border: 1px solid var(--border); border-radius: var(--r-sm);
+        padding: 16px 8px; text-align: center; cursor: pointer; transition: all 0.25s;
+        display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .qa-btn:active { transform: scale(0.96); }
+    .qa-icon { font-size: 1.5rem; }
+    .qa-text { font-size: 0.6rem; font-weight: 800; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.8px; }
 
-        .event-details { flex: 1; }
-        .event-details h4 { font-size: 1.1rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
-        .event-details p { font-size: 0.85rem; color: #475569; line-height: 1.5; margin-bottom: 12px; }
-        
-        .tag { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-right: 5px; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .tag-req { background: #FEE2E2; color: #DC2626; }
-        .tag-info { background: #E0F2FE; color: #0284C7; }
-        .tag-ev { background: #D1FAE5; color: #059669; }
+    /* ===== WEATHER ===== */
+    .weather-strip { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 14px; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 18px; }
+    .weather-strip::-webkit-scrollbar { display: none; }
+    .weather-day { flex: 0 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 14px; text-align: center; min-width: 80px; transition: all 0.25s; }
+    .weather-day.active { background: var(--ocean); border-color: var(--ocean); color: white; }
+    .wd-label { font-size: 0.5rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.5; }
+    .weather-day.active .wd-label { opacity: 0.8; }
+    .wd-icon { font-size: 1.5rem; margin: 3px 0; }
+    .wd-temp { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; }
 
-        .btn-maps {
-            display: inline-flex; align-items: center; gap: 6px; background: #F1F5F9; color: var(--navy);
-            padding: 10px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 800;
-            text-decoration: none; transition: background 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .btn-maps:active { background: #E2E8F0; transform: scale(0.98); }
+    /* ===== CALENDAR ===== */
+    .cal-nav { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 14px; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 6px; }
+    .cal-nav::-webkit-scrollbar { display: none; }
+    .cal-tab {
+        flex: 0 0 auto; width: 66px; background: var(--card); border: 2px solid var(--border);
+        border-radius: 16px; padding: 10px 4px; text-align: center; cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        appearance: none; outline: none; font-family: 'Outfit', sans-serif;
+    }
+    .cal-tab span { display: block; font-size: 0.5rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .cal-tab strong { display: block; font-size: 1.35rem; font-weight: 900; color: var(--text); }
+    .cal-dow { display: block; font-size: 0.48rem; font-weight: 700; color: var(--text-muted); margin-top: 1px; }
+    .cal-tab:active { transform: scale(0.95); }
+    .cal-tab.active { background: var(--ocean); border-color: var(--ocean); box-shadow: 0 8px 24px rgba(14,165,233,0.35); transform: translateY(-2px); }
+    .cal-tab.active span, .cal-tab.active strong, .cal-tab.active .cal-dow { color: white; }
+    .cal-tab.today { border-color: var(--sunset); }
+    .cal-tab.today::after { content: ''; display: block; width: 5px; height: 5px; background: var(--sunset); border-radius: 50%; margin: 3px auto 0; }
+    .cal-tab.active.today::after { background: white; }
 
-        .michael-mode {
-            background: #FAFAF9; border: 2px dashed #E5E7EB; border-radius: 10px; padding: 12px;
-            margin-top: 12px; font-size: 0.8rem; color: #4B5563; font-weight: 500;
-        }
-        .michael-mode strong { color: #EA580C; font-weight: 800; }
+    /* ===== DAY VIEWS ===== */
+    .day-view { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.5s, transform 0.5s; }
+    .day-view.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 600px) {
-            .event-card { flex-direction: column; gap: 12px; padding: 18px; }
-            .event-time { border-right: none; border-bottom: 1px solid #F1F5F9; padding-right: 0; padding-bottom: 10px; align-items: flex-start; }
-            .event-time h3 { font-size: 1.3rem; }
-        }
-    </style>
+    .day-hero { width: 100%; height: 180px; border-radius: var(--r); overflow: hidden; margin-bottom: 20px; position: relative; }
+    .day-hero img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .day-hero-overlay {
+        position: absolute; inset: 0;
+        background: linear-gradient(0deg, rgba(12,18,34,0.85) 0%, rgba(12,18,34,0) 60%);
+        display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; color: white;
+    }
+    .day-hero-overlay h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.3px; line-height: 1.15; }
+    .day-hero-overlay p { font-size: 0.78rem; color: rgba(255,255,255,0.6); font-weight: 500; margin-top: 3px; }
+
+    /* ===== EVENT CARDS ===== */
+    .event-card {
+        background: var(--card); border-radius: var(--r); padding: 18px; margin-bottom: 12px;
+        box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+        display: flex; gap: 14px; position: relative; overflow: hidden; transition: transform 0.2s;
+    }
+    .event-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+    .event-card.flight::before { background: var(--ocean); }
+    .event-card.activity::before { background: var(--sunset); }
+    .event-card.hotel::before { background: var(--orchid); }
+    .event-card.ev-car::before { background: var(--palm); }
+    .event-card.food::before { background: var(--coral); }
+    .event-card.default::before { background: var(--border); }
+    .event-card:active { transform: scale(0.995); }
+
+    .event-time { min-width: 60px; display: flex; flex-direction: column; padding-top: 1px; }
+    .event-time h3 { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--text); line-height: 1; }
+    .event-time span { font-size: 0.55rem; font-weight: 700; color: var(--text-muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .event-details { flex: 1; min-width: 0; }
+    .event-details h4 { font-size: 0.95rem; font-weight: 800; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+    .event-details p { font-size: 0.8rem; color: var(--text-sec); line-height: 1.55; margin-bottom: 10px; }
+
+    .tag { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 0.55rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; margin-right: 4px; margin-bottom: 7px; }
+    .tag-req { background: #FEE2E2; color: #DC2626; }
+    .tag-info { background: #E0F2FE; color: #0284C7; }
+    .tag-ev { background: #D1FAE5; color: #059669; }
+    .tag-food { background: #FFF7ED; color: #EA580C; }
+    .tag-hotel { background: #F3E8FF; color: #7C3AED; }
+    [data-theme="dark"] .tag-req { background: #450a0a; color: #FCA5A5; }
+    [data-theme="dark"] .tag-info { background: #082f49; color: #7DD3FC; }
+    [data-theme="dark"] .tag-ev { background: #052e16; color: #6EE7B7; }
+    [data-theme="dark"] .tag-food { background: #431407; color: #FDBA74; }
+    [data-theme="dark"] .tag-hotel { background: #2e1065; color: #C4B5FD; }
+
+    .btn-maps {
+        display: inline-flex; align-items: center; gap: 5px;
+        background: var(--bg); color: var(--text); padding: 7px 13px;
+        border-radius: var(--r-xs); font-size: 0.72rem; font-weight: 700;
+        text-decoration: none; border: 1px solid var(--border); transition: all 0.2s;
+    }
+    .btn-maps:active { transform: scale(0.97); }
+
+    .michael-mode {
+        background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-xs);
+        padding: 10px 13px; margin-top: 10px; font-size: 0.76rem;
+        color: var(--text-sec); font-weight: 500; line-height: 1.5;
+    }
+    .michael-mode strong { color: #EA580C; font-weight: 800; }
+
+    .section-title { font-size: 0.55rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+    .swipe-hint { text-align: center; font-size: 0.6rem; color: var(--text-muted); font-weight: 600; margin-bottom: 14px; opacity: 0.5; }
+
+    /* ===== MODALS ===== */
+    .modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        z-index: 1000; display: none; align-items: flex-end; justify-content: center;
+        opacity: 0; transition: opacity 0.3s;
+    }
+    .modal-overlay.open { display: flex; opacity: 1; }
+    .modal-panel {
+        background: var(--card); border-radius: var(--r) var(--r) 0 0;
+        width: 100%; max-width: 800px; max-height: 85vh; overflow-y: auto;
+        padding: 24px 20px; transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .modal-overlay.open .modal-panel { transform: translateY(0); }
+    .modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 4px; margin: 0 auto 20px; }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; margin-bottom: 18px; }
+
+    .budget-total { text-align: center; padding: 20px; background: var(--bg); border-radius: var(--r-sm); margin-bottom: 18px; }
+    .budget-amount { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--text); }
+    .budget-label { font-size: 0.6rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+    .budget-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .budget-cat { background: var(--bg); border-radius: var(--r-xs); padding: 14px; }
+    .budget-cat-icon { font-size: 1.2rem; margin-bottom: 5px; }
+    .budget-cat-amount { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 700; }
+    .budget-cat-name { font-size: 0.55rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+    .booking-card { background: var(--bg); border-radius: var(--r-sm); padding: 15px; margin-bottom: 10px; }
+    .booking-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 4px; }
+    .booking-card-title { font-size: 0.85rem; font-weight: 800; color: var(--text); }
+    .booking-card-ref { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 600; color: var(--ocean); cursor: pointer; }
+    .booking-card-detail { font-size: 0.75rem; color: var(--text-sec); line-height: 1.5; }
+
+    .toast {
+        position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+        background: var(--navy); color: white; padding: 12px 24px; border-radius: 50px;
+        font-size: 0.8rem; font-weight: 600; z-index: 2000; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .bottom-spacer { height: 50px; }
+
+    @media (max-width: 600px) {
+        .event-card { flex-direction: column; gap: 8px; padding: 16px; }
+        .event-time { flex-direction: row; align-items: baseline; gap: 6px; }
+        .hero h1 { font-size: 2.6rem; }
+        .day-hero { height: 160px; }
+    }
+</style>
+```
+
 </head>
 <body>
 
-    <div class="hero">
-        <h1>BOND ALOHA</h1>
-        <p>United EWR ✈️ LAX ✈️ HNL</p>
+<div class="hero">
+    <button class="top-btn left" onclick="shareTrip()" aria-label="Share">📤</button>
+    <button class="top-btn right" onclick="toggleTheme()" aria-label="Theme">🌙</button>
+    <div class="hero-avatars">
+        <div class="hero-avatar">R</div>
+        <div class="hero-avatar">L</div>
+        <div class="hero-avatar">M</div>
+    </div>
+    <div class="hero-eyebrow">🌺 March 28 – April 4, 2026 · 8 Days</div>
+    <h1>BOND ALOHA</h1>
+    <p class="hero-sub"><strong>Robert</strong>, <strong>Lizzy</strong> &amp; <strong>Michael</strong> &nbsp;·&nbsp; EWR → LAX → HNL</p>
+</div>
+
+<div class="live-dash">
+    <div class="time-block"><div class="time-label">Honolulu</div><div class="time-value" id="hst-time">--:--</div></div>
+    <div class="time-block"><div class="time-label">Philadelphia</div><div class="time-value" id="est-time">--:--</div></div>
+    <div class="time-block"><div class="time-label">Landing</div><div class="time-value countdown" id="countdown">--:--</div></div>
+</div>
+
+<div class="container">
+    <div class="trip-progress">
+        <div class="progress-header"><span class="progress-label">Trip Progress</span><span class="progress-label" id="progress-pct">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
 
-    <div class="container">
-        <div class="live-dash">
-            <div class="time-block">
-                <div class="time-label">Honolulu (HST)</div>
-                <div class="time-value" id="hst-time">--:--</div>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Philly (EDT)</div>
-                <div class="time-value" id="est-time">--:--</div>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Landing Status</div>
-                <div class="time-value highlight" id="countdown">--:--:--</div>
-            </div>
-        </div>
+```
+<div class="section-title">Quick Actions</div>
+<div class="quick-actions">
+    <div class="qa-btn" onclick="openModal('budget')"><span class="qa-icon">💰</span><span class="qa-text">Budget</span></div>
+    <div class="qa-btn" onclick="openModal('bookings')"><span class="qa-icon">🎫</span><span class="qa-text">Bookings</span></div>
+</div>
 
-        <div class="cal-nav-container">
-            <div class="cal-nav" id="calendar-ribbon">
-                <button class="cal-tab active" data-target="d1"><span>Mar</span><strong>28</strong></button>
-                <button class="cal-tab" data-target="d2"><span>Mar</span><strong>29</strong></button>
-                <button class="cal-tab" data-target="d3"><span>Mar</span><strong>30</strong></button>
-                <button class="cal-tab" data-target="d4"><span>Mar</span><strong>31</strong></button>
-                <button class="cal-tab" data-target="d5"><span>Apr</span><strong>01</strong></button>
-                <button class="cal-tab" data-target="d6"><span>Apr</span><strong>02</strong></button>
-                <button class="cal-tab" data-target="d7"><span>Apr</span><strong>03</strong></button>
-                <button class="cal-tab" data-target="d8"><span>Apr</span><strong>04</strong></button>
-            </div>
-        </div>
+<div class="section-title">Honolulu Forecast</div>
+<div class="weather-strip" id="weather-strip"></div>
 
-        <div id="d1" class="day-view active">
-            <div class="day-header">
-                <h2>Arrival in Paradise</h2>
-                <p>Saturday, March 28 • Travel & Waikiki</p>
-            </div>
-            
-            <div class="event-card flight">
-                <div class="event-time"><h3>12:00</h3><span>PM EDT</span></div>
-                <div class="event-details">
-                    <span class="tag tag-info">Flight UA</span>
-                    <h4>Depart Newark (EWR)</h4>
-                    <p>United Airlines. Connection in Los Angeles (LAX) before heading over the Pacific.</p>
-                </div>
-            </div>
+<div class="section-title">Itinerary</div>
+<div class="cal-nav" id="calendar-ribbon"></div>
+<div class="swipe-hint">← Swipe days · Tap to view →</div>
+<div id="day-views-container"></div>
+<div class="bottom-spacer"></div>
+```
 
-            <div class="event-card flight">
-                <div class="event-time"><h3>8:21</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-info">Arrival</span>
-                    <h4>Land at Daniel K. Inouye (HNL)</h4>
-                    <p>Collect bags and head to the rental car center.</p>
-                    <a href="https://maps.apple.com/?q=Honolulu+International+Airport" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
+</div>
 
-            <div class="event-card ev-car">
-                <div class="event-time"><h3>8:45</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-ev">Tesla</span>
-                    <h4>Pick up Vehicle</h4>
-                    <p>Grab the keys to the Tesla, connect your phone via Bluetooth, and map the drive to Waikiki.</p>
-                </div>
-            </div>
-
-            <div class="event-card hotel">
-                <div class="event-time"><h3>9:30</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-info">Hotel</span>
-                    <h4>Check-in: Hyatt Regency Waikiki</h4>
-                    <p>2424 Kalakaua Ave. Drop the bags and ask the valet about the EV charging spots.</p>
-                    <a href="https://maps.apple.com/?q=Hyatt+Regency+Waikiki" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-
-            <div class="event-card activity">
-                <div class="event-time"><h3>10:00</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <h4>Late Dinner: Duke's Waikiki</h4>
-                    <p>Just a 5-minute walk down Kalakaua Ave. Perfect oceanfront vibe to start the trip.</p>
-                    <a href="https://maps.apple.com/?q=Dukes+Waikiki" target="_blank" class="btn-maps">📍 Open Map</a>
-                    <div class="michael-mode"><strong>Teen Approved:</strong> Order the famous Hula Pie. It's a massive macadamia nut ice cream mountain.</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="d2" class="day-view">
-            <div class="day-header"><h2>Volcanos & Ocean Views</h2><p>Sunday, March 29</p></div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>6:00</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-req">QR Code Required</span>
-                    <h4>Diamond Head Summit Hike</h4>
-                    <p>Go early to beat the heat. The hike takes about 1.5 - 2 hours round trip. Incredible 360° views.</p>
-                    <a href="https://maps.apple.com/?q=Diamond+Head+State+Monument" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-            <div class="event-card">
-                <div class="event-time"><h3>10:30</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <h4>Waikiki Beach Recovery</h4>
-                    <p>Hit the beach across the street from the Hyatt and recover from the jet lag.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="d3" class="day-view">
-            <div class="day-header"><h2>History & Premium Dining</h2><p>Monday, March 30</p></div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>8:00</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-req">Tickets Required</span>
-                    <h4>Pearl Harbor National Memorial</h4>
-                    <p>Leave the hotel by 7:15 AM to handle traffic. <strong>Note:</strong> Do not leave bags visible inside the Tesla.</p>
-                    <a href="https://maps.apple.com/?q=Pearl+Harbor+National+Memorial" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-            <div class="event-card">
-                <div class="event-time"><h3>7:00</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-info">Reservation</span>
-                    <h4>Dinner: Hy's Steak House</h4>
-                    <p>Old-school luxury steakhouse. Tuxedoed waiters and tableside flambé desserts.</p>
-                    <a href="https://maps.apple.com/?q=Hys+Steak+House+Waikiki" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="d4" class="day-view">
-            <div class="day-header"><h2>The Sky Tour</h2><p>Tuesday, March 31</p></div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>9:00</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-req">Booking Confirmed</span>
-                    <h4>Blue Hawaiian Helicopters</h4>
-                    <p>Airbus Eco-Star Tour departing near HNL airport. Ensure you have IDs for weight verification.</p>
-                    <a href="https://maps.apple.com/?q=Blue+Hawaiian+Helicopters+Oahu" target="_blank" class="btn-maps">📍 Open Map</a>
-                    <div class="michael-mode"><strong>Pro Tip:</strong> Wear dark clothing (black/navy) to reduce window reflections for better photos!</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="d5" class="day-view">
-            <div class="day-header"><h2>Jurassic Action</h2><p>Wednesday, April 1</p></div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>9:30</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-req">Waiver Required</span>
-                    <h4>Kualoa Ranch - UTV Raptor Tour</h4>
-                    <p>Drive your own multi-passenger UTV deep into the stunning valleys where Jurassic Park was filmed.</p>
-                    <a href="https://maps.apple.com/?q=Kualoa+Ranch" target="_blank" class="btn-maps">📍 Open Map</a>
-                    <div class="michael-mode"><strong>Teen Approved:</strong> Highest-rated action activity. Bring bandanas for the dust!</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="d6" class="day-view">
-            <div class="day-header"><h2>North Shore Vibes</h2><p>Thursday, April 2</p></div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>11:00</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <h4>Drive the Tesla to the North Shore</h4>
-                    <p>Head up to see the legendary surfing beaches. Grab lunch at Giovanni's Aloha Shrimp Truck and shave ice at Matsumoto's.</p>
-                    <a href="https://maps.apple.com/?q=Haleiwa+Hawaii" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="d7" class="day-view">
-            <div class="day-header"><h2>Marine Life & Luau</h2><p>Friday, April 3</p></div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>8:00</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-req">Strict Entry</span>
-                    <h4>Hanauma Bay Snorkeling</h4>
-                    <p>Protected marine life conservation area. You must watch a 9-minute educational video before entering the beach.</p>
-                    <a href="https://maps.apple.com/?q=Hanauma+Bay" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-            <div class="event-card activity">
-                <div class="event-time"><h3>5:00</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-info">Evening Event</span>
-                    <h4>Traditional Hawaiian Luau</h4>
-                    <p>Enjoy the Kalua pig roasted in an Imu (underground oven) and traditional Polynesian culture.</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="d8" class="day-view">
-            <div class="day-header"><h2>Aloha & Departure</h2><p>Saturday, April 4</p></div>
-            <div class="event-card">
-                <div class="event-time"><h3>11:00</h3><span>AM HST</span></div>
-                <div class="event-details">
-                    <h4>Hotel Check-Out</h4>
-                    <p>Have the bellhop hold your bags at the Hyatt so you can enjoy one last afternoon in Waikiki.</p>
-                </div>
-            </div>
-            <div class="event-card ev-car">
-                <div class="event-time"><h3>4:00</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-ev">Vehicle Return</span>
-                    <h4>Return Tesla to Rental Center</h4>
-                    <p>Make sure the Tesla is charged to the minimum required percentage to avoid penalty fees before handing the keys back.</p>
-                    <a href="https://maps.apple.com/?q=Honolulu+International+Airport" target="_blank" class="btn-maps">📍 Open Map</a>
-                </div>
-            </div>
-            <div class="event-card flight">
-                <div class="event-time"><h3>7:55</h3><span>PM HST</span></div>
-                <div class="event-details">
-                    <span class="tag tag-info">Flight UA</span>
-                    <h4>Depart Honolulu (HNL)</h4>
-                    <p>United Airlines. Safe travels back to the East Coast!</p>
-                </div>
-            </div>
-        </div>
-
+<div class="modal-overlay" id="modal-budget" onclick="closeModalOut(event,'budget')">
+    <div class="modal-panel"><div class="modal-handle"></div><div class="modal-title">💰 Trip Budget</div>
+        <div class="budget-total"><div class="budget-amount" id="budget-total">$0</div><div class="budget-label">Estimated Total</div></div>
+        <div class="budget-breakdown" id="budget-breakdown"></div>
     </div>
+</div>
+<div class="modal-overlay" id="modal-bookings" onclick="closeModalOut(event,'bookings')">
+    <div class="modal-panel"><div class="modal-handle"></div><div class="modal-title">🎫 Booking References</div><div id="bookings-list"></div></div>
+</div>
+<div class="toast" id="toast"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Interactive Calendar Logic (Bulletproofed with Event Listeners)
-            const tabs = document.querySelectorAll('.cal-tab');
-            const views = document.querySelectorAll('.day-view');
+<script>
+const LANDING_UTC = Date.UTC(2026, 2, 29, 6, 21, 0);
+const DAY_PHOTOS = [
+    'https://images.unsplash.com/photo-1573551089778-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1562408590-e32931084e23?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1505852679933-d0d05e2b4e0b?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1528164344705-47542687000d?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1544551763-77932fb4ac52?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80'
+];
+const DAYS=[
+{id:'d1',month:'Mar',date:28,dow:'Sat',title:'Arrival in Paradise',subtitle:'Saturday, March 28 · Travel Day',events:[
+{time:'12:00',period:'PM EDT',type:'flight',tags:[{text:'United',cls:'tag-info'}],title:'Depart Newark (EWR)',desc:'United Airlines to LAX, then connecting across the Pacific. Boarding info in the United app.'},
+{time:'8:21',period:'PM HST',type:'flight',tags:[{text:'Arrival',cls:'tag-info'}],title:'Land at Daniel K. Inouye (HNL)',desc:'Collect bags at carousel and follow signs to rental car shuttle.',map:'https://maps.apple.com/?q=Honolulu+International+Airport'},
+{time:'8:45',period:'PM HST',type:'ev-car',tags:[{text:'Tesla Rental',cls:'tag-ev'}],title:'Pick Up Tesla',desc:'Grab the keys, connect Bluetooth, and map the 25-min drive to Waikiki.',map:'https://maps.apple.com/?q=Honolulu+Airport+Car+Rental'},
+{time:'9:30',period:'PM HST',type:'hotel',tags:[{text:'Check-In',cls:'tag-hotel'}],title:'Hyatt Regency Waikiki',desc:'2424 Kalakaua Ave. Ocean view rooms on floors 20+.',map:'https://maps.apple.com/?q=Hyatt+Regency+Waikiki'},
+{time:'10:00',period:'PM HST',type:'food',tags:[{text:'Dinner',cls:'tag-food'}],title:"Duke's Waikiki",desc:'5-min walk down Kalakaua Ave. Oceanfront dining, live music.',map:'https://maps.apple.com/?q=Dukes+Waikiki',teen:'Order the legendary Hula Pie: massive macadamia nut ice cream mountain on an Oreo crust.'}
+]},
+{id:'d2',month:'Mar',date:29,dow:'Sun',title:'Volcanos & Ocean Views',subtitle:'Sunday, March 29 · Active Day',events:[
+{time:'6:00',period:'AM HST',type:'activity',tags:[{text:'QR Code Required',cls:'tag-req'}],title:'Diamond Head Summit Hike',desc:'Go early. 1.6-mile round trip, 1.5-2 hours. Bring water and sunscreen. 360-degree views.',map:'https://maps.apple.com/?q=Diamond+Head+State+Monument',teen:'The 99-step staircase through the tunnel is the best part. Great photo op at the top.'},
+{time:'9:00',period:'AM HST',type:'food',tags:[{text:'Breakfast',cls:'tag-food'}],title:"Eggs 'n Things",desc:'Famous Hawaiian pancakes and macadamia nut waffles.',map:'https://maps.apple.com/?q=Eggs+n+Things+Waikiki'},
+{time:'10:30',period:'AM HST',type:'activity',tags:[{text:'Recovery',cls:'tag-info'}],title:'Waikiki Beach',desc:'Beach across from the Hyatt. Rent surfboards or just float. Water is 78°F year-round.'},
+{time:'6:30',period:'PM HST',type:'food',tags:[{text:'Dinner',cls:'tag-food'}],title:'Marukame Udon',desc:'Fresh handmade udon. Watch them being made through the glass window.',map:'https://maps.apple.com/?q=Marukame+Udon+Waikiki',teen:'Get the Nikutama udon (beef and soft egg). Legendary.'}
+]},
+{id:'d3',month:'Mar',date:30,dow:'Mon',title:'History & Steak',subtitle:'Monday, March 30 · Culture Day',events:[
+{time:'7:15',period:'AM HST',type:'activity',tags:[{text:'Tickets Required',cls:'tag-req'}],title:'Pearl Harbor National Memorial',desc:'Leave by 7:15 AM. Documentary film + Navy boat ride to USS Arizona Memorial. Allow 3-4 hours. Do NOT leave bags visible in the Tesla.',map:'https://maps.apple.com/?q=Pearl+Harbor+National+Memorial',teen:'The aviation museum has actual WWII fighter planes you can sit in.'},
+{time:'1:00',period:'PM HST',type:'food',tags:[{text:'Lunch',cls:'tag-food'}],title:"Helena's Hawaiian Food",desc:'James Beard Award winner. Pipikaula short ribs, poi, laulau. Local institution since 1946.',map:'https://maps.apple.com/?q=Helenas+Hawaiian+Food'},
+{time:'3:00',period:'PM HST',type:'activity',tags:[{text:'Free',cls:'tag-info'}],title:'Ala Moana Beach Park',desc:'Local\'s beach. Less crowded, calmer water. Great for recharging before dinner.'},
+{time:'7:00',period:'PM HST',type:'food',tags:[{text:'Reservation Req.',cls:'tag-req'}],title:"Hy's Steak House",desc:'Old-school luxury. Tuxedoed waiters, tableside flambé. Bone-In Ribeye is legendary.',map:'https://maps.apple.com/?q=Hys+Steak+House+Waikiki',teen:'Ask for Bananas Foster flambé. They light it on fire at your table.'}
+]},
+{id:'d4',month:'Mar',date:31,dow:'Tue',title:'The Sky Tour',subtitle:'Tuesday, March 31 · Adventure Day',events:[
+{time:'9:00',period:'AM HST',type:'activity',tags:[{text:'Confirmed',cls:'tag-req'}],title:'Blue Hawaiian Helicopters',desc:'Airbus Eco-Star tour near HNL. Bring IDs for weight verification. Sacred Falls, North Shore, Ko\'olau Mountains.',map:'https://maps.apple.com/?q=Blue+Hawaiian+Helicopters+Oahu',teen:'Wear dark clothes to cut window reflections. Sit right side for best mountain views.'},
+{time:'12:00',period:'PM HST',type:'food',tags:[{text:'Lunch',cls:'tag-food'}],title:'Rainbow Drive-In',desc:'Iconic plate lunch since 1961. Mixed plate with BBQ beef, mahi mahi, two scoops of rice.',map:'https://maps.apple.com/?q=Rainbow+Drive-In+Honolulu'},
+{time:'5:00',period:'PM HST',type:'activity',tags:[{text:'Golden Hour',cls:'tag-info'}],title:'Sunset at Magic Island',desc:'Walk the peninsula at Ala Moana for unobstructed sunset. Bring the good camera.',map:'https://maps.apple.com/?q=Magic+Island+Honolulu'}
+]},
+{id:'d5',month:'Apr',date:1,dow:'Wed',title:'Jurassic Action',subtitle:'Wednesday, April 1 · Adventure Day',events:[
+{time:'7:30',period:'AM HST',type:'default',tags:[{text:'Drive 45 min',cls:'tag-info'}],title:'Drive to Windward Side',desc:'Scenic H3 through Ko\'olau Mountains. Stop at Pali Lookout for dramatic views.',map:'https://maps.apple.com/?q=Nuuanu+Pali+Lookout'},
+{time:'9:30',period:'AM HST',type:'activity',tags:[{text:'Waiver Required',cls:'tag-req'}],title:'Kualoa Ranch — UTV Raptor Tour',desc:'Drive your own UTV through Ka\'a\'awa Valley. Jurassic Park, Lost filming locations. 2-hour experience.',map:'https://maps.apple.com/?q=Kualoa+Ranch',teen:'Highest-rated action on Oahu. Bring bandanas for the dust!'},
+{time:'12:30',period:'PM HST',type:'food',tags:[{text:'Lunch',cls:'tag-food'}],title:"Aunty Pat's Café",desc:'Lunch at the ranch. Kualoa Burger and fresh tropical juices.'},
+{time:'3:00',period:'PM HST',type:'activity',tags:[{text:'Beach',cls:'tag-info'}],title:'Kailua Beach',desc:'One of the most beautiful beaches in the world. Turquoise water, soft white sand.',map:'https://maps.apple.com/?q=Kailua+Beach',teen:'Rent a kayak to the Mokulua Islands ("the Mokes"). About 30-min paddle.'}
+]},
+{id:'d6',month:'Apr',date:2,dow:'Thu',title:'North Shore Vibes',subtitle:'Thursday, April 2 · Road Trip',events:[
+{time:'9:00',period:'AM HST',type:'ev-car',tags:[{text:'Road Trip',cls:'tag-ev'}],title:'Tesla to North Shore',desc:'1 hour from Waikiki via scenic Kamehameha Hwy past Chinaman\'s Hat.',map:'https://maps.apple.com/?q=Haleiwa+Hawaii'},
+{time:'10:30',period:'AM HST',type:'activity',tags:[{text:'Surf Capital',cls:'tag-info'}],title:'Pipeline & Sunset Beach',desc:'Legendary surf beaches. Spring waves are calmer, safe to swim at Sunset Beach.',map:'https://maps.apple.com/?q=Banzai+Pipeline'},
+{time:'12:00',period:'PM HST',type:'food',tags:[{text:'Lunch',cls:'tag-food'}],title:"Giovanni's Shrimp Truck",desc:'The original garlic shrimp truck. Scampi plate is the classic order.',map:'https://maps.apple.com/?q=Giovannis+Shrimp+Truck+North+Shore',teen:'Get extra garlic scampi. Messy but amazing. Bring wet wipes.'},
+{time:'1:30',period:'PM HST',type:'food',tags:[{text:'Dessert',cls:'tag-food'}],title:"Matsumoto's Shave Ice",desc:'Most famous shave ice on the planet. Since 1951. Try rainbow with li hing mui and condensed milk.',map:'https://maps.apple.com/?q=Matsumoto+Shave+Ice',teen:'Lemon-lime + lilikoi combo is fire.'},
+{time:'3:00',period:'PM HST',type:'activity',tags:[{text:'Wildlife',cls:'tag-info'}],title:'Turtle Beach (Laniakea)',desc:'Green sea turtles rest here daily. Stay 10 feet back — federally protected. Best 2-4 PM.',map:'https://maps.apple.com/?q=Laniakea+Beach+Turtle'}
+]},
+{id:'d7',month:'Apr',date:3,dow:'Fri',title:'Snorkeling & Luau',subtitle:'Friday, April 3 · Experience Day',events:[
+{time:'7:00',period:'AM HST',type:'activity',tags:[{text:'Reservation Req.',cls:'tag-req'}],title:'Hanauma Bay Snorkeling',desc:'Protected marine area. 9-min educational video required. Get there early — daily visitor cap. Bring your own gear.',map:'https://maps.apple.com/?q=Hanauma+Bay',teen:'Reef drops off at 100 yards where the big fish are. Stay inside if current is strong.'},
+{time:'11:30',period:'AM HST',type:'food',tags:[{text:'Brunch',cls:'tag-food'}],title:'Koko Head Café',desc:'Asian-inspired brunch. Cornflake French toast and kimchi fried rice.',map:'https://maps.apple.com/?q=Koko+Head+Cafe'},
+{time:'2:00',period:'PM HST',type:'activity',tags:[{text:'Free Time',cls:'tag-info'}],title:'Pool & Rest at Hyatt',desc:'Recharge before the luau. Pool bar makes excellent Mai Tais.'},
+{time:'5:00',period:'PM HST',type:'activity',tags:[{text:'Evening Event',cls:'tag-req'}],title:'Paradise Cove Luau',desc:'Kalua pig roasted in underground Imu oven, hula, fire knife dancing. 45-min drive.',map:'https://maps.apple.com/?q=Paradise+Cove+Luau',teen:'Fire knife dance at the end is insane. Get seats in the first few rows.'}
+]},
+{id:'d8',month:'Apr',date:4,dow:'Sat',title:'Aloha & Departure',subtitle:'Saturday, April 4 · Travel Day',events:[
+{time:'8:00',period:'AM HST',type:'food',tags:[{text:'Last Breakfast',cls:'tag-food'}],title:'Heavenly Island Lifestyle',desc:'Final Hawaiian breakfast. Acai bowls, Kona coffee, ocean views.',map:'https://maps.apple.com/?q=Heavenly+Island+Lifestyle+Waikiki'},
+{time:'11:00',period:'AM HST',type:'hotel',tags:[{text:'Check-Out',cls:'tag-hotel'}],title:'Check Out of Hyatt',desc:'Bellhop holds bags so you can enjoy one last Waikiki afternoon.'},
+{time:'12:00',period:'PM HST',type:'activity',tags:[{text:'Shopping',cls:'tag-info'}],title:'International Market Place',desc:'Upscale outdoor shopping. Massive banyan tree. Last-minute souvenirs.',map:'https://maps.apple.com/?q=International+Market+Place+Waikiki',teen:'Mitsuwa Japanese market has Kit Kat flavors you can\'t get on the mainland.'},
+{time:'4:00',period:'PM HST',type:'ev-car',tags:[{text:'Return Vehicle',cls:'tag-ev'}],title:'Return Tesla',desc:'Charge to minimum required level to avoid fees.',map:'https://maps.apple.com/?q=Honolulu+Airport+Car+Rental'},
+{time:'7:55',period:'PM HST',type:'flight',tags:[{text:'United',cls:'tag-info'}],title:'Depart Honolulu (HNL)',desc:'Mahalo, Hawaii — until next time. 🤙',map:'https://maps.apple.com/?q=Honolulu+International+Airport'}
+]}
+];
+const WEATHER=[{day:'Sat 28',icon:'⛅',high:82,low:71},{day:'Sun 29',icon:'☀️',high:84,low:72},{day:'Mon 30',icon:'☀️',high:83,low:71},{day:'Tue 31',icon:'🌤️',high:82,low:70},{day:'Wed 1',icon:'☀️',high:84,low:72},{day:'Thu 2',icon:'🌦️',high:80,low:70},{day:'Fri 3',icon:'☀️',high:83,low:71},{day:'Sat 4',icon:'⛅',high:81,low:70}];
+const BUDGET={'✈️ Flights':2400,'🏨 Hotel':3200,'🚗 Tesla Rental':980,'🍽️ Food & Dining':1500,'🎟️ Activities':1800,'🛍️ Shopping/Misc':500};
+const BOOKINGS=[
+{name:'United Airlines (EWR→LAX→HNL)',ref:'UA-XXXXXX',detail:'Mar 28 · 12:00 PM EDT → Apr 4 · 7:55 PM HST'},
+{name:'Hyatt Regency Waikiki',ref:'HYATT-XXXXXX',detail:'2424 Kalakaua Ave · 7 nights · Ocean View King'},
+{name:'Tesla Rental',ref:'TURO-XXXXXX',detail:'Mar 28 HNL → Apr 4 HNL · Full coverage'},
+{name:'Blue Hawaiian Helicopters',ref:'BHH-XXXXXX',detail:'Mar 31 · 9:00 AM · Eco-Star · 3 passengers'},
+{name:'Kualoa Ranch UTV',ref:'KR-XXXXXX',detail:'Apr 1 · 9:30 AM · Raptor Tour · 3 riders'},
+{name:'Paradise Cove Luau',ref:'PCL-XXXXXX',detail:'Apr 3 · 5:00 PM · Deluxe · 3 guests'},
+{name:'Diamond Head',ref:'DLNR-XXXXXX',detail:'Mar 29 · 6:00 AM entry · QR code in email'},
+{name:'Hanauma Bay',ref:'HBAY-XXXXXX',detail:'Apr 3 · 7:00 AM entry · Online reservation'}
+];
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active states
-                    tabs.forEach(t => t.classList.remove('active'));
-                    views.forEach(v => {
-                        v.classList.remove('active');
-                        setTimeout(() => { if(!v.classList.contains('active')) v.style.display = 'none'; }, 300);
-                    });
+function renderCalendar(){const now=new Date();document.getElementById('calendar-ribbon').innerHTML=DAYS.map((d,i)=>{const dd=new Date(2026,d.month==='Mar'?2:3,d.date);const t=now.toDateString()===dd.toDateString();return`<button class="cal-tab ${i===0?'active':''} ${t?'today':''}" data-idx="${i}"><span>${d.month}</span><strong>${d.date}</strong><span class="cal-dow">${d.dow}</span></button>`}).join('')}
+function renderDayViews(){document.getElementById('day-views-container').innerHTML=DAYS.map((d,i)=>`<div id="${d.id}" class="day-view ${i===0?'active':''}"><div class="day-hero"><img src="${DAY_PHOTOS[i]}" alt="${d.title}" loading="${i===0?'eager':'lazy'}"><div class="day-hero-overlay"><h2>${d.title}</h2><p>${d.subtitle}</p></div></div>${d.events.map(e=>`<div class="event-card ${e.type}"><div class="event-time"><h3>${e.time}</h3><span>${e.period}</span></div><div class="event-details">${e.tags?e.tags.map(t=>`<span class="tag ${t.cls}">${t.text}</span>`).join(''):''}<h4>${e.title}</h4><p>${e.desc}</p>${e.map?`<a href="${e.map}" target="_blank" class="btn-maps">📍 Open in Maps</a>`:''} ${e.teen?`<div class="michael-mode"><strong>🤙 Michael:</strong> ${e.teen}</div>`:''}</div></div>`).join('')}</div>`).join('')}
+function renderWeather(){document.getElementById('weather-strip').innerHTML=WEATHER.map((w,i)=>`<div class="weather-day ${i===0?'active':''}"><div class="wd-label">${w.day}</div><div class="wd-icon">${w.icon}</div><div class="wd-temp">${w.high}°/${w.low}°</div></div>`).join('')}
+function renderBudget(){const t=Object.values(BUDGET).reduce((a,b)=>a+b,0);document.getElementById('budget-total').textContent='$'+t.toLocaleString();document.getElementById('budget-breakdown').innerHTML=Object.entries(BUDGET).map(([c,a])=>`<div class="budget-cat"><div class="budget-cat-icon">${c.split(' ')[0]}</div><div class="budget-cat-amount">$${a.toLocaleString()}</div><div class="budget-cat-name">${c.split(' ').slice(1).join(' ')}</div></div>`).join('')}
+function renderBookings(){document.getElementById('bookings-list').innerHTML=BOOKINGS.map(b=>`<div class="booking-card"><div class="booking-card-header"><div class="booking-card-title">${b.name}</div><div class="booking-card-ref" onclick="copyRef('${b.ref}')">${b.ref} 📋</div></div><div class="booking-card-detail">${b.detail}</div></div>`).join('')}
 
-                    // Add active state to clicked
-                    this.classList.add('active');
-                    const targetId = this.getAttribute('data-target');
-                    const targetView = document.getElementById(targetId);
-                    
-                    targetView.style.display = 'block';
-                    // Force browser reflow to trigger CSS transition
-                    void targetView.offsetWidth; 
-                    targetView.classList.add('active');
+function copyRef(r){navigator.clipboard.writeText(r).then(()=>showToast('Copied: '+r))}
+function openModal(n){document.getElementById('modal-'+n).classList.add('open');document.body.style.overflow='hidden'}
+function closeModal(n){document.getElementById('modal-'+n).classList.remove('open');document.body.style.overflow=''}
+function closeModalOut(e,n){if(e.target.classList.contains('modal-overlay'))closeModal(n)}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function toggleTheme(){const d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'':'dark');document.querySelector('.top-btn.right').textContent=d?'🌙':'☀️';localStorage.setItem('bondHawaiiTheme',d?'light':'dark')}
+function shareTrip(){if(navigator.share)navigator.share({title:'Bond Hawaii 2026',text:'Our Hawaii trip!',url:location.href});else navigator.clipboard.writeText(location.href).then(()=>showToast('Link copied!'))}
 
-                    // Smooth scroll to the top of the ribbon
-                    const ribbon = document.getElementById('calendar-ribbon');
-                    window.scrollTo({ top: ribbon.offsetTop - 20, behavior: 'smooth' });
-                });
-            });
+function updateClocks(){const now=new Date(),o={hour:'numeric',minute:'2-digit',hour12:true};document.getElementById('hst-time').textContent=now.toLocaleTimeString('en-US',{timeZone:'Pacific/Honolulu',...o});document.getElementById('est-time').textContent=now.toLocaleTimeString('en-US',{timeZone:'America/New_York',...o});const diff=LANDING_UTC-now.getTime(),cd=document.getElementById('countdown');if(diff<=0){cd.textContent='WHEELS DOWN 🤙';cd.className='time-value landed'}else{const d=Math.floor(diff/864e5),h=Math.floor((diff%864e5)/36e5),m=Math.floor((diff%36e5)/6e4),s=Math.floor((diff%6e4)/1e3);cd.textContent=d>0?`${d}d ${h}h ${m}m`:`${h}h ${m}m ${s}s`}}
+function updateProgress(){const now=new Date(),s=new Date('2026-03-28T00:00:00-10:00'),e=new Date('2026-04-05T00:00:00-10:00');let p=0;if(now>=e)p=100;else if(now>s)p=Math.round(((now-s)/(e-s))*100);document.getElementById('progress-fill').style.width=p+'%';document.getElementById('progress-pct').textContent=p+'%'}
 
-            // Live Clocks & Landing Countdown Logic
-            function updateClocks() {
-                const now = new Date();
-                const opts = { hour: 'numeric', minute: '2-digit', hour12: true };
-                
-                document.getElementById('hst-time').innerText = now.toLocaleTimeString("en-US", {timeZone: "Pacific/Honolulu", ...opts});
-                document.getElementById('est-time').innerText = now.toLocaleTimeString("en-US", {timeZone: "America/New_York", ...opts});
-                
-                // Countdown to March 28, 2026 8:21 PM HST
-                const landingTime = new Date(Date.UTC(2026, 2, 29, 6, 21, 0)).getTime();
-                const diff = landingTime - now.getTime();
-                
-                if (diff <= 0) {
-                    document.getElementById('countdown').innerText = "WHEELS DOWN!";
-                    document.getElementById('countdown').style.color = "#10B981";
-                } else {
-                    const h = Math.floor(diff / (1000 * 60 * 60));
-                    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const s = Math.floor((diff % (1000 * 60)) / 1000);
-                    document.getElementById('countdown').innerText = `${h}h ${m}m ${s}s`;
-                }
-            }
-            setInterval(updateClocks, 1000); 
-            updateClocks();
-        });
-    </script>
+function setupCalNav(){document.getElementById('calendar-ribbon').addEventListener('click',function(e){const tab=e.target.closest('.cal-tab');if(!tab)return;const idx=+tab.dataset.idx;document.querySelectorAll('.cal-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');document.querySelectorAll('.day-view').forEach(v=>{v.classList.remove('active');v.style.display='none'});const tgt=document.getElementById(DAYS[idx].id);tgt.style.display='block';void tgt.offsetWidth;tgt.classList.add('active');document.querySelectorAll('.weather-day').forEach((w,i)=>w.classList.toggle('active',i===idx));window.scrollTo({top:document.getElementById('calendar-ribbon').offsetTop-20,behavior:'smooth'})})}
+function setupSwipe(){let sx=0,ci=0;const c=document.getElementById('day-views-container');c.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});c.addEventListener('touchend',e=>{const d=sx-e.changedTouches[0].clientX;if(Math.abs(d)<60)return;if(d>0&&ci<DAYS.length-1)ci++;else if(d<0&&ci>0)ci--;else return;document.querySelectorAll('.cal-tab')[ci].click()},{passive:true})}
+
+document.addEventListener('DOMContentLoaded',()=>{
+if(localStorage.getItem('bondHawaiiTheme')==='dark'){document.documentElement.setAttribute('data-theme','dark');document.querySelector('.top-btn.right').textContent='☀️'}
+renderCalendar();renderDayViews();renderWeather();renderBudget();renderBookings();setupCalNav();setupSwipe();
+updateClocks();setInterval(updateClocks,1000);updateProgress();setInterval(updateProgress,60000);
+const now=new Date();DAYS.forEach((d,i)=>{const dd=new Date(2026,d.month==='Mar'?2:3,d.date);if(now.toDateString()===dd.toDateString())setTimeout(()=>document.querySelectorAll('.cal-tab')[i].click(),500)})
+});
+</script>
+
 </body>
 </html>
